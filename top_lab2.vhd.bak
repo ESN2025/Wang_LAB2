@@ -1,0 +1,92 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+--------------------------------------------------------------------------------
+-- 顶层实体：top_lab2
+--   - 端口列表:
+--       clk       : 输入时钟
+--       reset_n   : 低有效复位
+--       seg_out   : 7段显示(8位，含dp)
+--------------------------------------------------------------------------------
+entity top_lab2 is
+    port (
+        clk       : in  std_logic;
+        reset_n   : in  std_logic;
+        seg_out   : out std_logic_vector(7 downto 0)
+    );
+end entity top_lab2;
+
+architecture rtl of top_lab2 is
+
+    ----------------------------------------------------------------------------
+    -- 1) 声明 Qsys 生成的 lab2 组件
+    --    （从 "lab2.v" 或 .qip 里查看端口名，确保一致）
+    ----------------------------------------------------------------------------
+    component lab2 is
+        port (
+            clk_clk                            : in  std_logic;                       -- 时钟
+            reset_reset_n                      : in  std_logic;                       -- 复位(低有效)
+            
+            -- Qsys 中可能还生成了一个 8位的segment_external_connection_export
+            -- 若你不需要，可先不使用(OPEN/忽略)
+            segment_external_connection_export : out std_logic_vector(7 downto 0);    
+            
+            -- 这是 PIO for sel(4bit)，由软件写，硬件视作 input
+            sel_external_connection_export     : in  std_logic_vector(3 downto 0)
+        );
+    end component lab2;
+
+    ----------------------------------------------------------------------------
+    -- 2) 声明 7 段译码模块 deco7seg
+    --    （假设它已有：clk, reset, sel(4bit), segment(8bit)）
+    ----------------------------------------------------------------------------
+    component deco7seg is
+        port (
+            clk     : in  std_logic;
+            reset   : in  std_logic;
+            sel     : in  std_logic_vector(3 downto 0);
+            segment : out std_logic_vector(7 downto 0)
+        );
+    end component deco7seg;
+
+    ----------------------------------------------------------------------------
+    -- 3) 定义中间信号，用于连接 lab2 和 deco7seg
+    ----------------------------------------------------------------------------
+    signal sel_from_qsys : std_logic_vector(3 downto 0); -- 来自 lab2 PIO
+    -- 不使用 lab2 里 segment PIO，直接让 deco7seg 输出 seg_out
+
+begin
+
+    ----------------------------------------------------------------------------
+    -- 实例化 lab2 (Qsys系统)
+    ----------------------------------------------------------------------------
+    u0 : lab2
+        port map (
+            -- 与顶层时钟和复位相连
+            clk_clk        => clk,
+            reset_reset_n  => reset_n,
+            
+            -- 8位 segment_external_connection_export 可以不用
+            segment_external_connection_export => open, 
+            -- 或者 => (others => '0') 之类，如无须使用
+
+            -- Qsys里 4bit PIO: sel_external_connection_export
+            -- 软件写 -> 硬件看做 input
+            sel_external_connection_export     => sel_from_qsys
+        );
+
+    ----------------------------------------------------------------------------
+    -- 实例化 deco7seg (手写7段译码器)
+    ----------------------------------------------------------------------------
+    u1 : deco7seg
+        port map (
+            clk     => clk,
+            reset   => reset_n,
+            -- 来自 lab2 PIO
+            sel     => sel_from_qsys,
+            -- 输出直接连到顶层 seg_out
+            segment => seg_out
+        );
+
+end architecture rtl;
