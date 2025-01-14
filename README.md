@@ -1,4 +1,4 @@
-# Lab2 : « Comptons ! »
+# Lab2 : « Let’s count ! »
 
 1. Implémenter un compteur décimal sur 1 chiffre et l’afficher sur un afficheur 7 segments.
 
