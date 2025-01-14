@@ -221,9 +221,9 @@
 
    6. Compiler : `make`, puis charger dans le CPU : `nios2-download -g my_app.elf`.
 
-   <video src="./assets/ec7a3d7f79b56c2265469cecf36bd887.mp4" controls width="640">
-     Your browser does not support HTML5 video.
-   </video>
+
+[click here to access the video](./assets/ec7a3d7f79b56c2265469cecf36bd887.mp4)
+
 
    ------
 
