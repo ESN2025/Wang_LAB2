@@ -222,7 +222,9 @@
    6. Compiler : `make`, puis charger dans le CPU : `nios2-download -g my_app.elf`.
 
 
-[click here to access the video](./assets/ec7a3d7f79b56c2265469cecf36bd887.mp4)
+
+
+https://github.com/user-attachments/assets/a8d363e6-f6cf-498d-bfc7-6449efa8997a
 
 
    ------
@@ -536,7 +538,9 @@
    - Les PIO (units, tens, hund) → `units_pio_external_connection_export`, `tens_pio_external_connection_export`, `hund_pio_external_connection_export` → connectés dans `top_lab2_3led.vhd` → respectivement `sel` des trois instances `deco7seg` → sorties 7 segments correspondantes.
 
 
-[click here to access the video](./assets/d2e80af16a95bab6cf4dd8e94674dd84.mp4)
+
+https://github.com/user-attachments/assets/fd45d8df-6e66-4e99-9899-9f515edcd5ed
+
 
 ## Conclusion
 
