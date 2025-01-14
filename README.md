@@ -535,11 +535,8 @@
 
    - Les PIO (units, tens, hund) → `units_pio_external_connection_export`, `tens_pio_external_connection_export`, `hund_pio_external_connection_export` → connectés dans `top_lab2_3led.vhd` → respectivement `sel` des trois instances `deco7seg` → sorties 7 segments correspondantes.
 
-<video src="./assets/d2e80af16a95bab6cf4dd8e94674dd84.mp4" controls width="640">
-  Your browser does not support HTML5 video.
-</video>
 
-
+[click here to access the video](./assets/d2e80af16a95bab6cf4dd8e94674dd84.mp4)
 
 ## Conclusion
 
